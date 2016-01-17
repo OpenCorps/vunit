@@ -1,0 +1,7 @@
+schema_version:
+  - 1
+
+simulation:
+  vunit:
+    - ./examples/verilog/uart/run.py
+    - ./examples/vhdl/array/run.py
