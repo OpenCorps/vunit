@@ -1,0 +1,30 @@
+# Trusty (beta) - slower to boot but 7.5GB RAM
+sudo: required
+dist: trusty
+
+# For now, we limit to Python 2.7
+language: python
+python:
+  - '2.7'
+
+env:
+  global:
+    - secure: "MUKFAyUoDUFhfy2ISRF4OkoLSVbrrfXZc6q++SQTJKyLadTiLfXnQysM8IrjcU9YZ84aWfDKS/ZGqiUsH1fc7EQI+BHPisZJyldZTLoNVmp8zQsFk4+x9oKYzkBSuJap2bSN+jWJ8KLga3+xQfOp/8+mh8Gd3NtpHUJrFkq9FFvxUhw+LluUtiCYOTaGQD040jL/joSRjxJGruYobdhQufamDxk02Vl63tzpQNgBoxrmxAWw+yKU0q5qsUJnSYrCVatFJOCE2exis7YwhWWxmnpXUfQ36+WQmfMIOWkk/LdxGHf29PzloAIOytuogdMXA+S+0PzaYCSxKC6bbs/9PuGPt/VLzvUnCdOcgIMVlca13t/t9X4W1XAqGGZhA+lBIAJW2BeMP2+tsSZ852iXnXGs9AJ+/V9MNLUbtJwezzHePCDeAhobHwCSmkv2FEPUlsp6NIPv/cXjnTA9+z1PVm/JD02ia8+LQbHL0vV68aWviLuUzzMLLPLoFkNB0Rn9rriwaspu2/zJ9kFOxjQziFwHU0A65gLfjrWcbFkKATJenqFaWdf3OZua8U6P/B4dnsaXDp1Wa6LMUgTwY/du8MqNu6Lf5dzwh+71QOBTO+FAtWfQDFaZLGdT7tk/EsOpBYENo1U1es8hLXSMMIm9HtmqmtQwgnmPefPGMNL3rZE="
+    - secure: "jEU5miVP3xI2hNXXTxBB9Ox58nq/QbB2AIvK/rHNISM92VkkASyhj1QOtYwVsHlUDsrLIagMPAMgU78+4145nALApyWYQ7ELhj+eDpJ4+lPgGDbURz6TCq56kYvUFHMOkAq2s2N3hC4uhZYZJrRrfAbzpiyKqdvyv6NUB/+QvrMsGIzk6Ebu7KHu+8hGs9l9GHV5mkI90Jgq7hCBCNPUylT92pBQUe3Fw77BRLGv4aYR+MTwrTuDag3s/zyzZVHp1g7442q6mfqI7L5bKyUUCfZlD10HcEG+eGKEoDikTclkHUQ6rZMOgp7gHvyD7nMevh5sybs1suRnsLfUQIX1iidbT/nSC6GNOCoagAZ6H1PV+eDQp2U6b5E6o4zVbKK//Kgk2iGhe8RHNA+F7UH9dUW/Jriqz7zLm5g1KKNax48sR4Wh34W9jOGu7EV1nPcd1dmI68+usfJ2CguJy+XZVwfnFYhVWr/2zcPYhurVOy1Lsl+NAhS0lEhh7vX2+0/25s8ZLg7qTlFs6bxsSfihntxWPtACTCGGNmTjSY9hunHFChEY3/9vGFfwcmSa5z0nriPIjk/2z7FGKLQT9SwYg40yLBeGUC0MxWXyH6xv+hBsx0PFMY566YLU2s9x82gqRa+Djiov3l02YQ5hlwxqK/BdFnxVCuRPALCx92DrfOY="
+    - VUNIT_SCRIPTFILES="./examples/verilog/uart/run.py ./examples/vhdl/array/run.py ./examples/vhdl/osvvm_integration/run.py ./examples/vhdl/com/run.py"
+    - REPOSITORY=chiggs/vunit
+  matrix:
+    - VUNIT_SIMULATION=true
+
+before_install:
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get update
+  - sudo apt-get install -y build-essential
+  - sudo apt-get install -y gcc-multilib g++-multilib lib32z1 lib32stdc++6 lib32gcc1 expat:i386 fontconfig:i386 libfreetype6:i386 libexpat1:i386 libc6:i386 libgtk-3-0:i386 libcanberra0:i386 libpng12-0:i386 libice6:i386 libsm6:i386 libncurses5:i386 zlib1g:i386 libx11-6:i386 libxau6:i386 libxdmcp6:i386 libxext6:i386 libxft2:i386 libxrender1:i386 libxt6:i386 libxtst6:i386
+
+install:
+  - pip install git+git://github.com/LarsAsplund/vunit
+  - git clone https://github.com/potentialventures/buildtools
+
+script:
+  - ./buildtools/travis/build.sh
