@@ -7,4 +7,5 @@ simulation:
     - ./examples/verilog/uart/run.py
     - ./examples/vhdl/array/run.py
     - ./examples/vhdl/osvvm_integration/run.py
+    - ./examples/vhdl/com/run.py
 
